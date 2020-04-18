@@ -72,7 +72,21 @@ function update_employe($id)
     echo json_encode($respons);
 }
 
-// disini saya menggunakan method GET
+// function untuk delete data
+function delete_employe($id)
+{
+    global $connection;
+    echo $querysql = "DELETE FROM `tb_employe` WHERE `tb_employe`.`id` = $id";
+    if (mysqli_query($connection, $querysql)) {
+        $respons = array('status' => 1, 'status_message' => 'Employe Deleted Successfully');
+    } else {
+        $respons = array('status' => 0, 'status_message' => 'Employe Deletion Failed ');
+    }
+    header("Content-Type:application/json");
+    echo json_encode($respons);
+}
+
+// disini untuk menggunakan method 
 switch ($request_method) {
         // untuk method get (show)
     case 'GET':
@@ -95,6 +109,13 @@ switch ($request_method) {
 
         $id = intval($_GET["id"]);
         update_employe($id);
+        break;
+
+        // untuk method delete
+    case 'DELETE':
+
+        $id = intval($_GET["id"]);
+        delete_employe($id);
         break;
 
     default:
